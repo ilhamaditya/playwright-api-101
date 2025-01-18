@@ -1,0 +1,21 @@
+{
+  "name": "playwright-api-101",
+  "version": "1.0.0",
+  "description": "Simulasi api automation playwright",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "report": "allure generate allure-results --clean && allure open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "allure-commandline": "^2.32.0",
+    "allure-playwright": "^3.0.9"
+  }
+}
