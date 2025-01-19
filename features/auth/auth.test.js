@@ -1,5 +1,5 @@
 // auth.test.js
-const { test, expect } = require('@playwright/test');
+const { test, expect, request } = require('@playwright/test');
 const AuthAPI = require('./authAPI');
 const { validUser, invalidUser } = require('./authData');
 
