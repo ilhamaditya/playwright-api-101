@@ -5,6 +5,7 @@ const validUser = {
 
 const invalidUser = {
     email: "eve.holt@reqres.in", // Data invalid tanpa password
+    password: "", // Tambahkan field password kosong untuk lebih eksplisit
 };
 
 module.exports = {

@@ -7,21 +7,22 @@ class AuthAPI {
     }
 
     async login(payload) {
+        logger.info(`Sending POST request to ${baseURL}/login with payload: ${JSON.stringify(payload)}`);
         try {
-            logger.info(`Sending POST request to ${baseURL}/login with payload: ${JSON.stringify(payload)}`);
             const response = await this.request.post(`${baseURL}/login`, { data: payload });
 
             if (!response.ok()) {
+                // Hanya mengembalikan respons jika status bukan 2xx
                 const errorResponse = await response.json();
                 logger.error(`Request failed with status ${response.status()}: ${JSON.stringify(errorResponse)}`);
-                throw new Error(`Request failed: ${response.status()} - ${errorResponse.error || 'Unknown error'}`);
+                return response; // Kembalikan respons yang gagal
             }
 
             logger.info('Request successful');
-            return response;
+            return response; // Kembalikan respons yang berhasil
         } catch (error) {
             logger.error(`AuthAPI.login error: ${error.message}`);
-            throw error;
+            throw error; // Lempar error jika terjadi kesalahan pada request
         }
     }
 }
