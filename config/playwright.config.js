@@ -6,7 +6,12 @@ module.exports = defineConfig({
   reporter: [
     ['list'], // Tambahkan output sederhana ke console
     ['allure-playwright'], // Reporter untuk Allure
+    {
+      outputFolder: 'allure-results', // Specify the output folder for Allure results
+      suiteTitle: true, // Optional: Include suite name in the Allure report
+    },
   ],
+
   use: {
     baseURL: process.env.BASE_URL || 'https://reqres.in/api', // Default baseURL
     headless: true, // Jalankan browser di mode headless
