@@ -3,6 +3,7 @@ const AuthAPI = require('../../services/authAPI');
 const { validUser, invalidUser } = require('../../data/authData');
 const logger = require('../../utils/logger');
 
+
 test.describe('Auth API Tests', () => {
     let apiRequest;
     let authAPI;

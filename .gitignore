@@ -1,12 +1,10 @@
 # Custom
-allure-report/
-allure-results/
-test-results/
 .DS_Store
 allure*
 *.bak.js
 node_modules
 screenshots/*
+test-results/
 
 # Logs
 logs
