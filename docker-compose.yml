@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  allure:
+    image: ghcr.io/fescobar/allure-docker-service:latest
+    container_name: allure-docker-service
+    ports:
+      - "5050:5050" # Port untuk akses laporan Allure
+    volumes:
+      - ./allure-results:/app/allure-results # Mount folder hasil test ke container
+      - ./allure-report:/app/default-reports # Mount folder laporan ke container
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 1 # Interval pengecekan hasil
+      KEEP_HISTORY: "true"           # Pertahankan histori laporan
