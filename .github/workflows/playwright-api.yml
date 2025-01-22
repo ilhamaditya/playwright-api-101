@@ -1,0 +1,76 @@
+name: Playwright API Automation CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout kode
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Setup Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    # 3. Install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # 4. Jalankan Playwright test
+    - name: Run Playwright API tests
+      run: npm test
+
+    # 5. Generate Allure report
+    - name: Generate Allure Report
+      run: npm run report
+      if: success()
+
+    # 6. Upload Allure results sebagai artifact
+    - name: Upload Allure Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-results
+        path: allure-results/
+
+    # 7. Upload Allure report sebagai artifact
+    - name: Upload Allure Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-report
+        path: allure-report/
+
+  # Tambahan: Deploy Allure report ke GitHub Pages (opsional)
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+    # 1. Checkout kode
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Ambil Allure report dari artifact
+    - name: Download Allure Report
+      uses: actions/download-artifact@v3
+      with:
+        name: allure-report
+        path: allure-report/
+
+    # 3. Deploy ke GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./allure-report
