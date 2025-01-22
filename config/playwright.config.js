@@ -1,20 +1,24 @@
-// playwright.config.js
-const { defineConfig, devices } = require('@playwright/test');
+const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
+  testDir: './features',
+  timeout: 30000,
   reporter: [
-    ['allure-playwright'],  // Reporter untuk Allure
+    ['list'], // Console output
+    ['allure-playwright', { 
+      outputFolder: 'allure-results', // Folder output Allure
+    }],
   ],
   use: {
-    baseURL: process.env.BASE_URL || 'https://reqres.in/api',  // Menggunakan dotenv untuk BASE_URL
-    headless: true,  // Menjalankan browser di background
+    baseURL: process.env.BASE_URL || 'https://reqres.in/api',
+    headless: true,
+    trace: 'on', // Aktifkan trace untuk debugging
   },
   projects: [
     {
       name: 'API Tests',
       use: { 
-        baseURL: process.env.BASE_URL, 
-        browserName: 'webkit', // Atur sesuai dengan kebutuhan, bisa chromium, firefox, atau webkit
+        baseURL: process.env.BASE_URL,
       },
     },
   ],

@@ -1,33 +1,39 @@
-// auth.test.js
 const { test, expect, request } = require('@playwright/test');
-const AuthAPI = require('./authAPI');
-const { validUser, invalidUser } = require('./authData');
+const AuthAPI = require('../../services/authAPI');
+const { validUser, invalidUser } = require('../../data/authData');
+const logger = require('../../utils/logger');
+
 
 test.describe('Auth API Tests', () => {
     let apiRequest;
     let authAPI;
 
     test.beforeAll(async () => {
-        // Membuat instance Playwright APIRequestContext
+        logger.info('Starting Auth API Tests...');
         apiRequest = await request.newContext();
-        authAPI = new AuthAPI(apiRequest); // Initialize AuthAPI dengan apiRequest
+        authAPI = new AuthAPI(apiRequest);
     });
 
     test.afterAll(async () => {
-        await apiRequest.dispose(); // Cleanup request context
+        logger.info('Cleaning up after tests...');
+        await apiRequest.dispose();
     });
 
     test('Should login successfully with valid credentials', async () => {
-        const response = await authAPI.login(validUser); // Login request
-        expect(response.status()).toBe(200); // Expect HTTP 200
+        logger.info('Test: Valid Login');
+        const response = await authAPI.login(validUser);
+        expect(response.status()).toBe(200); // Validasi HTTP 200
         const responseBody = await response.json();
-        expect(responseBody).toHaveProperty('token'); // Token harus ada
+        expect(responseBody).toHaveProperty('token'); // Validasi keberadaan token
+        logger.info('Login successful with valid credentials');
     });
 
     test('Should fail to login with invalid credentials', async () => {
-        const response = await authAPI.login(invalidUser); // Login request tanpa password
-        expect(response.status()).toBe(400); // Expect HTTP 400
+        logger.info('Test: Invalid Login');
+        const response = await authAPI.login(invalidUser);
+        expect(response.status()).toBe(400); // Validasi status kode 400
         const responseBody = await response.json();
-        expect(responseBody.error).toBe('Missing password'); // Validasi error
+        expect(responseBody.error).toBe('Missing password'); // Validasi error message
+        logger.warn('Login failed with invalid credentials'); // Logging untuk kasus gagal
     });
 });

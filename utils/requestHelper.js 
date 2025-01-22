@@ -1,8 +1,0 @@
-const requestHelper = {
-    logResponse: async (response) => {
-        console.log(`Status: ${response.status()}`);
-        console.log(`Response: ${JSON.stringify(await response.json(), null, 2)}`);
-    },
-};
-
-module.exports = requestHelper;

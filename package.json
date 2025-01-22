@@ -11,11 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "pino": "^9.6.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",
     "allure-commandline": "^2.32.0",
-    "allure-playwright": "^3.0.9"
+    "allure-playwright": "^3.0.9",
+    "pino-pretty": "^13.0.0"
   }
 }
