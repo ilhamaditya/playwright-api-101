@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   test:
@@ -27,50 +28,26 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    # 4. Jalankan Playwright test
+    # 4. Jalankan Playwright tests
     - name: Run Playwright API tests
       run: npm test
 
-    # 5. Generate Allure report
+    # 5. Start Allure Docker Service
+    - name: Start Allure Docker Service
+      run: docker-compose up -d allure
+
+    # 6. Copy Allure results ke Docker
+    - name: Copy Allure Results to Docker
+      run: docker cp allure-results allure-docker-service:/app/allure-results
+
+    # 7. Generate Allure report
     - name: Generate Allure Report
-      run: npm run report
-      if: success()
+      run: docker exec allure-docker-service allure generate --clean
 
-    # 6. Upload Allure results sebagai artifact
-    - name: Upload Allure Results
-      uses: actions/upload-artifact@v3
-      with:
-        name: allure-results
-        path: allure-results/
+    # 8. Publish Allure Report URL
+    - name: Publish Allure Report URL
+      run: "echo 'Allure Report URL: http://localhost:5050'"
 
-    # 7. Upload Allure report sebagai artifact
-    - name: Upload Allure Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: allure-report
-        path: allure-report/
-
-  # Tambahan: Deploy Allure report ke GitHub Pages (opsional)
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: always()
-
-    steps:
-    # 1. Checkout kode
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    # 2. Ambil Allure report dari artifact
-    - name: Download Allure Report
-      uses: actions/download-artifact@v3
-      with:
-        name: allure-report
-        path: allure-report/
-
-    # 3. Deploy ke GitHub Pages
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./allure-report
+    # 9. Stop Allure Docker Service (Optional Cleanup)
+    - name: Stop Allure Docker Service
+      run: docker-compose down
