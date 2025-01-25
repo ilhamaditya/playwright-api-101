@@ -1,37 +1,54 @@
-# playwright-api-101
+# Playwright API Automation 101 🚀 
 Simulasi api automation playwright
+API testing dasar dengan integrasi Allure untuk pelaporan dan CI menggunakan GitHub Actions.
 
-#1
-git clone https://github.com/ilhamaditya/playwright-api-automation.git
-cd playwright-api-automation
+## 🚀 Baca Link : [Short Reading](https://medium.com/@muxsdn/automating-api-testing-with-playwright-and-github-actions-4eaa434d7f4f)
+## 🚀 Demo Link : [Short Demo](https://youtu.be/8eV_B9ny_HE)
 
-#2
-npm init -y
+## 📂 Struktur Direktori
+Berikut adalah struktur direktori utama proyek:
+```bash
+.
+playwright-api-101/
+├── .github/
+│   └── workflows/
+│       └── playwright-api.yml
+├── allure-report/
+├── allure-results/
+├── config/
+│   ├── environment.js
+│   └── playwright.config.js
+├── data/
+│   └── authData.js
+├── features/
+│   └── auth/
+│       └── auth.test.js
+├── node_modules/
+├── services/
+│   └── authAPI.js
+├── utils/
+│   ├── logger.js
+│   └── requestHelper.js
+├── .env
+├── package.json
+```
 
-#3
-npm install playwright @playwright/test
+Instal dependensi
+```
+npm install
+```
 
-#4
-npx playwright install
+Buat file .env di root direktori dan tentukan URL dasar AP
+```
+BASE_URL=https://reqres.in/api
+```
 
-#5
-Folder
-project/
-project/
-│
-├── features/                   # Folder untuk feature-based modules
-│   ├── auth/                   # Folder khusus untuk fitur Auth
-│   │   ├── auth.test.js        # File test untuk Auth API
-│   │   ├── authAPI.js          # Logic API untuk Auth
-│   │   └── authData.js         # Test data untuk Auth
-│
-├── utils/                      # Folder helper/utility
-│   ├── requestHelper.js        # Wrapper untuk HTTP request
-│   └── logger.js               # (Opsional) Logger untuk output
-│
-├── config/                     # Konfigurasi
-│   ├── environment.js          # Base URL dan config lainnya
-│   └── playwright.config.js    # Playwright config
-│
-└── reports/                    # Folder untuk laporan (Allure, dsb.)
+Menjalankan pengujian
+```
+npm test
+```
 
+Melihat Laporan Allure
+```
+npm run report
+```

@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   allure:
-    image: ghcr.io/fescobar/allure-docker-service:latest
+    image: frankescobar/allure-docker-service
     container_name: allure-docker-service
     ports:
       - "5050:5050" # Port untuk akses laporan Allure
