@@ -32,33 +32,31 @@ jobs:
     - name: Run Playwright API tests
       run: npm test
 
-    # 5. Login ke GitHub Container Registry
-    - name: Login to GitHub Container Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-    # 6. Install Docker Compose
+    # 5. Install Docker Compose
     - name: Install Docker Compose
       run: |
         sudo apt-get update
         sudo apt-get install -y docker-compose
+        docker-compose --version
 
-    # 7. Start Allure Docker Service
+    # 6. Start Allure Docker Service
     - name: Start Allure Docker Service
       run: docker-compose up -d allure
 
-    # 8. Copy Allure Results to Docker
+    # 7. Copy Allure Results to Docker
     - name: Copy Allure Results to Docker
       run: docker cp allure-results allure-docker-service:/app/allure-results
 
-    # 9. Generate Allure Report
-    - name: Generate Allure Report
-      run: docker exec allure-docker-service allure generate --clean
+    # 8. Generate Allure Report via API
+    - name: Generate Allure Report via API
+      run: |
+        curl -X GET "http://localhost:5050/generate-report"
 
-    # 10. Publish Allure Report URL
+    # 9. Publish Allure Report URL
     - name: Publish Allure Report URL
       run: |
         echo "Allure Report URL: http://localhost:5050"
 
-    # 11. Stop Allure Docker Service (Optional Cleanup)
+    # 10. Stop Allure Docker Service (Optional Cleanup)
     - name: Stop Allure Docker Service
       run: docker-compose down
