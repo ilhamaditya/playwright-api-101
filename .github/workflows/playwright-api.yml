@@ -39,24 +39,28 @@ jobs:
         sudo apt-get install -y docker-compose
         docker-compose --version
 
-    # 6. Start Allure Docker Service
+    # 6. Login to Docker Hub
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    # 7. Start Allure Docker Service
     - name: Start Allure Docker Service
       run: docker-compose up -d allure
 
-    # 7. Copy Allure Results to Docker
+    # 8. Copy Allure Results to Docker
     - name: Copy Allure Results to Docker
       run: docker cp allure-results allure-docker-service:/app/allure-results
 
-    # 8. Generate Allure Report via API
+    # 9. Generate Allure Report via API
     - name: Generate Allure Report via API
       run: |
         curl -X GET "http://localhost:5050/generate-report"
 
-    # 9. Publish Allure Report URL
+    # 10. Publish Allure Report URL
     - name: Publish Allure Report URL
       run: |
         echo "Allure Report URL: http://localhost:5050"
 
-    # 10. Stop Allure Docker Service (Optional Cleanup)
+    # 11. Stop Allure Docker Service (Optional Cleanup)
     - name: Stop Allure Docker Service
       run: docker-compose down
