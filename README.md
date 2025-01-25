@@ -3,7 +3,7 @@ Simulasi api automation playwright
 API testing dasar dengan integrasi Allure untuk pelaporan dan CI menggunakan GitHub Actions.
 
 ## 🚀 Baca Link : [Short Reading](https://medium.com/@muxsdn/automating-api-testing-with-playwright-and-github-actions-4eaa434d7f4f)
-## 🚀 Demo Link : [Short Demo]()
+## 🚀 Demo Link : [Short Demo](https://youtu.be/8eV_B9ny_HE)
 
 ## 📂 Struktur Direktori
 Berikut adalah struktur direktori utama proyek:
